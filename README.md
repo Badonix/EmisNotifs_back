@@ -1,6 +1,6 @@
 # Project Title: Node.js EMIS Notifier
 
-A brief description of your project. This Node.js application serves to connect to the EMIS API, fetch relevant data for users, and send out email notifications using Nodemailer. It uses MongoDB as its primary database for storing user information and application data.
+A brief description of your project. This Node.js application serves to connect to the EMIS API and send you an email using Nodemailer when you receive a new score (you must run a cron-job on `/check-scores` endpoint). It uses MongoDB as its primary database for storing user information and application data.
 
 ## ✨ Features
 
@@ -22,8 +22,8 @@ Before you begin, ensure you have the following installed on your system:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-    cd your-repo-name
+    git clone https://github.com/badonix/EmisNotifs_back.git
+    cd EmisNotifs_back
     ```
 
 2.  **Install dependencies:**
