@@ -1,6 +1,6 @@
-# Project Title: Node.js EMIS Notifier
+# Emis notifications
 
-A brief description of your project. This Node.js application serves to connect to the EMIS API and send you an email using Nodemailer when you receive a new score (you must run a cron-job on `/check-scores` endpoint). It uses MongoDB as its primary database for storing user information and application data.
+This a source code of the backend of [emisnotifs.netlify.app](https://emisnotifs.netlify.app). Its basically a Node.js application which serves to connect to the EMIS API and send you an email using Nodemailer when you receive a new score (you must run a cron-job on `/check-scores` endpoint). It uses MongoDB as its primary database for storing user information and application data.
 
 ## ✨ Features
 
