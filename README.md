@@ -8,7 +8,6 @@ This a source code of the backend of [emisnotifs.netlify.app](https://emisnotifs
 * **Email Notifications:** Uses Nodemailer and Google App Passwords to send emails to users.
 * **Database:** Leverages MongoDB for persistent data storage.
 * **Secure:** Manages sensitive information and secrets using environment variables.
-* **JWT Authentication:** Uses JSON Web Tokens for securing API routes.
 
 ## 📋 Prerequisites
 
