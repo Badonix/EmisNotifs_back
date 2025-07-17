@@ -1,6 +1,6 @@
 const User = require('../models/User')
 const { fetchGrades } = require('../helpers/fetchGrades')
-const { sendMail } = require('../helpers/sendMail')
+const { sendMail, sendWelcomeEmail } = require('../helpers/sendMail')
 const { encrypt, decrypt } = require('../helpers/encryption')
 
 function isAllowedEmail(email) {
@@ -60,9 +60,6 @@ const checkGrades = async (req, res) => {
       user.subjects = sortedNew
       await user.save()
       await sendMail(user.email, difference, true)
-      console.log(`UPDATE HAPPENED for ${user.email}`)
-    } else {
-      console.log(`NO UPDATE for ${user.email}`)
     }
   }
 
@@ -95,6 +92,7 @@ const createOrUpdateUser = async (req, res) => {
     const encryptedToken = encrypt(token)
     if (!user) {
       user = new User({ email, token: encryptedToken, subjects: currScores })
+      await sendWelcomeEmail(email)
       await user.save()
     } else {
       user.token = encryptedToken
