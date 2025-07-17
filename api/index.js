@@ -9,10 +9,14 @@ const {
 dotenv.config()
 
 const PORT = process.env.PORT
-const DB_URL = process.env.DB_URL.replace(
+let DB_URL = process.env.DB_URL.replace(
   '<username>',
   process.env.DB_USERNAME,
 ).replace('<password>', process.env.DB_PASSWORD)
+
+if (process.env.MONGODB_URI) {
+  DB_URL = process.env.MONGODB_URI
+}
 
 const app = express()
 
