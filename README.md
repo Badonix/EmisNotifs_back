@@ -75,9 +75,7 @@ The server will start on the port specified in your `.env` file (e.g., `http://l
 
 Contributions are welcome! Please feel free to submit a pull request.
 
-1.  Fork the ProjectToday at 12:35:00 AM	
-HISTORY
-EDIT
+1.  Fork the Project
 
 2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
