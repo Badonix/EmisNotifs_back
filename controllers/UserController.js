@@ -2,6 +2,7 @@ const User = require('../models/User')
 const { fetchGrades } = require('../helpers/fetchGrades')
 const { sendMail, sendWelcomeEmail } = require('../helpers/sendMail')
 const { encrypt, decrypt } = require('../helpers/encryption')
+const dbConnect = require('../helpers/dbConnect')
 
 function isAllowedEmail(email) {
   return email.endsWith('@freeuni.edu.ge') || email.endsWith('@agruni.edu.ge')
@@ -20,47 +21,51 @@ function isValidJwt(token) {
 }
 
 const checkGrades = async (req, res) => {
-  const users = await User.find()
+  try {
+    await dbConnect()
+    const users = await User.find()
+    for (const user of users) {
+      let token
+      try {
+        token = decrypt(user.token)
+      } catch (err) {
+        console.error(`Decryption failed for ${user.email}:`, err.message)
+        await sendMail(user.email, null, false)
+        continue
+      }
+      if (!isValidJwt(token)) {
+        await sendMail(user.email, null, false)
+        continue
+      }
+      const currData = [...user.subjects]
+      const newData = await fetchGrades(token, user.email)
+      if (!Array.isArray(newData)) {
+        continue
+      }
+      const sortBySubject = (arr) =>
+        arr.sort((a, b) => a.subject.localeCompare(b.subject))
+      const sortedCurr = sortBySubject([...currData])
+      const sortedNew = sortBySubject([...newData])
 
-  for (const user of users) {
-    let token
-    try {
-      token = decrypt(user.token)
-    } catch (err) {
-      console.error(`Decryption failed for ${user.email}:`, err.message)
-      await sendMail(user.email, null, false)
-      continue
-    }
-    if (!isValidJwt(token)) {
-      await sendMail(user.email, null, false)
-      continue
-    }
-    const currData = [...user.subjects]
-    const newData = await fetchGrades(token, user.email)
-    if (!Array.isArray(newData)) {
-      continue
-    }
-    const sortBySubject = (arr) =>
-      arr.sort((a, b) => a.subject.localeCompare(b.subject))
-    const sortedCurr = sortBySubject([...currData])
-    const sortedNew = sortBySubject([...newData])
+      let difference = []
+      for (let i = 0; i < sortedCurr.length; i++) {
+        if (sortedCurr[i].score != sortedNew[i].score) {
+          difference.push({
+            subject: sortedCurr[i].subject,
+            oldScore: sortedCurr[i].score,
+            newScore: sortedNew[i].score,
+          })
+        }
+      }
 
-    let difference = []
-    for (let i = 0; i < sortedCurr.length; i++) {
-      if (sortedCurr[i].score != sortedNew[i].score) {
-        difference.push({
-          subject: sortedCurr[i].subject,
-          oldScore: sortedCurr[i].score,
-          newScore: sortedNew[i].score,
-        })
+      if (difference.length !== 0) {
+        user.subjects = sortedNew
+        await user.save()
+        await sendMail(user.email, difference, true)
       }
     }
-
-    if (difference.length !== 0) {
-      user.subjects = sortedNew
-      await user.save()
-      await sendMail(user.email, difference, true)
-    }
+  } catch (e) {
+    console.log(e)
   }
 
   res.status(200).send('Grade check completed.')
@@ -86,6 +91,7 @@ const createOrUpdateUser = async (req, res) => {
   }
 
   try {
+    await dbConnect()
     let user = await User.findOne({ email })
 
     let currScores = await fetchGrades(token, email)

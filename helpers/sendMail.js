@@ -10,7 +10,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.GOOGLE_APP_PASSWORD,
   },
 })
-console.log(process.env.GOOGLE_APP_PASSWORD)
 
 const sendMail = async (email, subjects, success) => {
   try {
