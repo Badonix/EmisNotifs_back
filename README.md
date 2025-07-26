@@ -2,14 +2,14 @@
 
 This a source code of the backend of [emisnotifs.netlify.app](https://emisnotifs.netlify.app), a tool for Freeuni/Agruni students to get emails when a lecturer writes some scores. Its basically a Node.js application which serves to connect to the EMIS API and send you an email using Nodemailer (you must run a cron-job on `/check-scores` endpoint). It uses MongoDB as its primary database for storing user information and application data.
 
-## ✨ Features
+## Features
 
 * **EMIS API Integration:** Securely fetches data from an EMIS API using user-specific tokens.
 * **Email Notifications:** Uses Nodemailer and Google App Passwords to send emails to users.
 * **Database:** Leverages MongoDB for persistent data storage.
 * **Secure:** Manages sensitive information and secrets using environment variables.
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
 
@@ -17,7 +17,7 @@ Before you begin, ensure you have the following installed on your system:
 * [npm](https://www.npmjs.com/get-npm) (comes with Node.js)
 * [MongoDB](https://www.mongodb.com/try/download/community) (or a MongoDB Atlas account)
 
-## 🚀 Installation
+## Installation
 
 1.  **Clone the repository:**
     ```bash
@@ -36,7 +36,7 @@ Before you begin, ensure you have the following installed on your system:
     touch .env
     ```
 
-## ⚙️ Environment Variables
+## Environment Variables
 
 You will need to add the following environment variables to your `.env` file. Populate them with your specific credentials and configuration details.
 
@@ -59,7 +59,7 @@ TOKEN_SECRET_KEY=your_super_secret_and_long_key
 
 **Note on `GOOGLE_APP_PASSWORD`:** This is not your regular Google account password. You need to generate a 16-digit "App Password" from your Google Account security settings. [Learn how here](https://support.google.com/accounts/answer/185833).
 
-## ▶️ Usage
+##  Usage
 
 To start the application in development mode, run:
 
@@ -71,7 +71,7 @@ The server will start on the port specified in your `.env` file (e.g., `http://l
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request.
 
@@ -82,6 +82,6 @@ Contributions are welcome! Please feel free to submit a pull request.
 4.  Push to the Branch (`git push origin feature/AmazingFeature`)
 5.  Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the `LICENSE.md` file for details.
